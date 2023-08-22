@@ -202,7 +202,9 @@ PARSER should be a function for parsing COMMAND's output line-by-line, to
 ;;;###autoload (autoload 'doom-modeline-env-setup-python "doom-modeline-env")
 (doom-modeline-def-env python
   :hooks   '(python-mode-hook python-ts-mode-hook)
-  :command (lambda () (cond ((and (fboundp 'pipenv-project-p)
+  :command (lambda () (cond ((getenv "VIRTUAL_ENV")
+                        (list "python" "--version"))
+                       ((and (fboundp 'pipenv-project-p)
                              (pipenv-project-p))
                         (list "pipenv" "run"
                               (or doom-modeline-env-python-executable
